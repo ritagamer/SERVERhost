@@ -1,0 +1,15 @@
+{
+    "configuration": {
+        "automatic": {
+            "host": "localhost",
+            "port": 55555
+        },
+        "lastSession": {
+            "host": "localhost",
+            "port": 55555
+        },
+        "session": {
+            "id": "none"
+        }
+    }
+}
