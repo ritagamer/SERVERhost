@@ -1,5 +1,5 @@
-#Libraries
-from colorama import Fore, Back
+# Libraries
+from colorama import Fore
 import socket
 import subprocess
 import ipaddress
@@ -9,7 +9,7 @@ import pyfiglet
 import json
 
 # Variables
-option=[1,2,3,4,5]
+option = [1, 2, 3, 4, 5]
 
 # Port Verification
 def is_port_available(host, port):
@@ -35,7 +35,7 @@ with open('date.json', 'r') as f:
 
 def save_json():
     with open('date.json', "w") as f:
-        json.dump(data, f)
+        json.dump(data, f, indent=4)
 
 # Main
 try:
@@ -43,11 +43,14 @@ try:
         while True:
             host = data["configuration"]["automatic"]["host"]
             port = data["configuration"]["automatic"]["port"]
+            session = data["configuration"]["session"]["id"]
+
             subprocess.run("cls", shell=True)
             print(pyfiglet.figlet_format("SEVERhost"))
             print("_" * 65)
-            print(f'\n[1] Automatic ({host}:{port})\n[2] Manual (custom IP and Port)\n[3] Last session\n[4] Settings\n[5] Exit')
+            print(f'\n[1] Automatic ({data["configuration"]["automatic"]["host"]}:{data["configuration"]["automatic"]["port"]})\n[2] Manual (custom IP and Port)\n[3] Last session\n[4] Settings\n[5] Exit')
             print("_" * 65)
+
             try:
                 put = int(input("option: "))
             except KeyboardInterrupt:
@@ -59,12 +62,9 @@ try:
                 continue
 
             if put == option[0]:
-                session="automatic"
+                session = "automatic"
                 host = data["configuration"]["automatic"]["host"]
                 port = data["configuration"]["automatic"]["port"]
-                session = data["configuration"]["session"]["id"]
-                save_json()
-                break
             elif put == option[1]:
                 subprocess.run("cls", shell=True)
                 print("\n" + pyfiglet.figlet_format("SEVERhost\n"))
@@ -97,6 +97,7 @@ try:
                     time.sleep(2)
                     continue
 
+                session = "lastSession"
             elif put == option[2]:
                 subprocess.run("cls", shell=True)
                 break
@@ -106,6 +107,7 @@ try:
                 print("_" * 65)
                 print('\n[1] Change automatic (localhost and 55555 Port)\n[2] Exit')
                 print("_" * 65)
+
                 try:
                     setting = int(input("option: "))
                 except KeyboardInterrupt:
@@ -115,6 +117,7 @@ try:
                     print(f"{Fore.RED}[!]{Fore.RESET} Error: Invalid input. Please enter a valid number.")
                     time.sleep(2)
                     continue
+
                 if setting == option[0]:
                     subprocess.run("cls", shell=True)
                     print("\n" + pyfiglet.figlet_format("SEVERsettings\n"))
@@ -152,21 +155,7 @@ try:
                     save_json()
                     continue
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                if setting==option[1]:
+                if setting == option[1]:
                     sys.exit()
             elif put == option[4]:
                 sys.exit()
@@ -175,13 +164,13 @@ try:
                 time.sleep(2)
                 continue
 
-
             subprocess.run("cls", shell=True)
             data["configuration"]["lastSession"]["host"] = host
             data["configuration"]["lastSession"]["port"] = port
+            data["configuration"]["session"]["id"] = session
             save_json()
+
             break
-            
 
 except KeyboardInterrupt:
     print("\rProgram interrupted by user")
